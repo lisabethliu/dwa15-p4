@@ -20,6 +20,6 @@ Route::group(array('prefix' => '/',), function() {
 
 // Routers for all the http based api requests
 Route::group(array('prefix' => '/api',), function() {
-    Route::get('lig', 'ApiController@generateLoremIpsum');
-    Route::get('ug', 'ApiController@generateUser');
+    Route::get('repo', 'ApiController@generateLoremIpsum');
+    Route::get('item', 'ApiController@generateUser');
 });

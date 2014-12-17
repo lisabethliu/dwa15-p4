@@ -17,22 +17,34 @@ class ApiController extends BaseController
     */
 
     // This function is to generate user specified paragraphs of texts using the Lorem Ipsum module
-    public function generateLoremIpsum()
+    public function getRepo()
     {
-        $paragraphs = $this->setDefaultValue(Input::get('paragraphs'), 1);
+        $id = Input::get('id');
         $validator = Validator::make(array(
-                'paragraphs' => $paragraphs
+                'id' => $id
             ),
             array(
-                'paragraphs' => 'required|integer|min:1|max:99'
+                'id' => 'integer|min:1|max:99999'
             ));
 
         if ($validator->passes()) {
-            $generator = new Badcow\LoremIpsum\Generator();
+
             return Response::json(array('data' => $generator->getParagraphs($paragraphs)), 200);
         } else {
             return Response::make('Bad Request', 400);
         }
+    }
+
+    public function updateRepo(){
+
+    }
+
+    public function createRepo(){
+
+    }
+
+    public function deleteRepo(){
+
     }
 
     // This function is to generate user name(s), birthday(s) and profile(s) using Faker module.

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App').controller('LigCtrl',
+angular.module('App').controller('RepoCtrl',
     function ($scope, $http, $log) {
         $scope.paragraphs = 1;
         $scope.texts = [];
