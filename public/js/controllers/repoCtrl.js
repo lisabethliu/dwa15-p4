@@ -62,7 +62,7 @@ angular.module('App').controller('RepoCtrl',
           }
         })
           .success(function (data) {
-            alert('update successfully.');
+            alert('Record updated successfully.');
             $scope.repos = data.data;
           })
           .error(function (error) {
@@ -78,7 +78,7 @@ angular.module('App').controller('RepoCtrl',
           }
         })
           .success(function (data) {
-            alert('create successfully.');
+            alert('Record create successfully.');
             $scope.repos = data.data;
           })
           .error(function (error) {
