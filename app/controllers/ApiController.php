@@ -3,88 +3,186 @@
 class ApiController extends BaseController
 {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default Home Controller
-    |--------------------------------------------------------------------------
-    |
-    | You may wish to use controllers instead of, or in addition to, Closure
-    | based routes. That's great! Here is an example controller method to
-    | get you started. To route to this controller, just add the route:
-    |
-    |	Route::get('/', 'HomeController@showWelcome');
-    |
-    */
+  /*
+  |--------------------------------------------------------------------------
+  | Default Home Controller
+  |--------------------------------------------------------------------------
+  |
+  | You may wish to use controllers instead of, or in addition to, Closure
+  | based routes. That's great! Here is an example controller method to
+  | get you started. To route to this controller, just add the route:
+  |
+  |	Route::get('/', 'HomeController@showWelcome');
+  |
+  */
 
-    // This function is to generate user specified paragraphs of texts using the Lorem Ipsum module
-    public function getRepo()
-    {
-        $id = Input::get('id');
-        $validator = Validator::make(array(
-                'id' => $id
-            ),
-            array(
-                'id' => 'integer|min:1|max:99999'
-            ));
+  public function getRepo()
+  {
+    $id = Input::get('id');
+    $validator = Validator::make(array(
+      'id' => $id
+    ),
+      array(
+        'id' => 'integer|min:1|max:99999'
+      ));
 
-        if ($validator->passes()) {
+    if ($validator->passes()) {
 
-            return Response::json(array('data' => $generator->getParagraphs($paragraphs)), 200);
-        } else {
-            return Response::make('Bad Request', 400);
-        }
+      return Response::json(array('data' => Repo::getAllRepo()), 200);
+    } else {
+      return Response::make('Bad Request', 400);
     }
+  }
 
-    public function updateRepo(){
+  public function updateRepo()
+  {
+    $id = Input::get('Id');
+    $name = Input::get('Name');
+    $description = Input::get('Description');
+    $validator = Validator::make(array(
+      'id' => $id,
+      'name' => $name,
+      'description' => $description
+    ),
+      array(
+        'id' => 'required|integer|min:1|max:99999',
+        'name' => 'required',
+        'description' => 'required'
+      ));
 
+    if ($validator->passes()) {
+      Repo::updateRepo($id, $name, $description);
+      return Response::json(array('data' => Repo::getAllRepo()), 200);
+    } else {
+      return Response::make('Bad Request', 400);
     }
+  }
 
-    public function createRepo(){
+  public function createRepo()
+  {
+    $name = Input::get('Name');
+    $description = Input::get('Description');
+    $validator = Validator::make(array(
+      'name' => $name,
+      'description' => $description
+    ),
+      array(
+        'name' => 'required',
+        'description' => 'required'
+      ));
 
+    if ($validator->passes()) {
+      Repo::createRepo($name, $description);
+      return Response::json(array('data' => Repo::getAllRepo()), 200);
+    } else {
+      return Response::make('Bad Request', 400);
     }
+  }
 
-    public function deleteRepo(){
+  public function deleteRepo()
+  {
+    $id = Input::get('Id');
+    $validator = Validator::make(array(
+      'id' => $id
+    ),
+      array(
+        'id' => 'required|integer|min:1|max:99999'
+      ));
 
+    if ($validator->passes()) {
+      Repo::deleteRepo($id);
+      return Response::json(array('data' => Repo::getAllRepo()), 200);
+    } else {
+      return Response::make('Bad Request', 400);
     }
+  }
 
-    // This function is to generate user name(s), birthday(s) and profile(s) using Faker module.
-    public function generateUser()
-    {
-        $qty = $this->setDefaultValue(Input::get('qty'), 1);
-        $hasBirthday = $this->setDefaultValue(Input::get('hasBirthday'), false);
-        $hasProfile = $this->setDefaultValue(Input::get('hasProfile'), false);
+  public function getItem()
+  {
+    $repoId = Input::get('RepoId');
+    $validator = Validator::make(array(
+      'RepoId' => $repoId
+    ),
+      array(
+        'RepoId' => 'integer|min:1|max:99999'
+      ));
 
-        $validator = Validator::make(array(
-                'qty' => $qty,
-                'hasBirthday' => $hasBirthday,
-                'hasProfile' => $hasProfile
-            ),
-            array(
-                'qty' => 'required|integer|min:1|max:99',
-                'hasBirthday' => 'required|boolean',
-                'hasProfile' => 'required|boolean'
-            ));
-
-        $faker = Faker\Factory::create();
-        $users = array();
-        while ($qty > 0) {
-            $user = array('name' => $faker->name);
-            if ($hasBirthday) {
-                $user['birthday'] = $faker->dateTimeThisCentury->format('Y-m-d');
-            }
-            if ($hasProfile) {
-                $user['profile'] = $faker->text();
-            }
-
-            array_push($users, $user);
-            $qty--;
-        }
-
-        if ($validator->passes()) {
-            return Response::json(array('data' => $users), 200);
-        } else {
-            return Response::make('Bad Request', 400);
-        }
+    if ($validator->passes()) {
+      return Response::json(array('data' => Item::getItemsByRepoId($repoId)), 200);
+    } else {
+      return Response::make('Bad Request', 400);
     }
+  }
 
+  public function updateItem()
+  {
+    $id = Input::get('Id');
+    $repoId = Input::get('RepoId');
+    $name = Input::get('Name');
+    $description = Input::get('Description');
+    $validator = Validator::make(array(
+      'id' => $id,
+      'repoId' => $repoId,
+      'name' => $name,
+      'description' => $description
+    ),
+      array(
+        'id' => 'required|integer|min:1|max:99999',
+        'repoId' => 'integer|min:1|max:99999',
+        'name' => 'required',
+        'description' => 'required'
+      ));
+
+    if ($validator->passes()) {
+      Item::updateItem($id, $name, $description);
+      return Response::json(array('data' => Item::getItemsByRepoId($repoId)), 200);
+    } else {
+      return Response::make('Bad Request', 400);
+    }
+  }
+
+  public function createItem()
+  {
+    $repoId = Input::get('RepoId');
+    $name = Input::get('Name');
+    $description = Input::get('Description');
+    $validator = Validator::make(array(
+      'repoId' => $repoId,
+      'name' => $name,
+      'description' => $description
+    ),
+      array(
+        'repoId' => 'integer|min:0|max:99999',
+        'name' => 'required',
+        'description' => 'required'
+      ));
+
+    if ($validator->passes()) {
+      Item::createItem($repoId, $name, $description);
+      return Response::json(array('data' => Item::getItemsByRepoId($repoId)), 200);
+    } else {
+      return Response::make('Bad Request AA'.(string)$repoId.$name.$description, 400);
+    }
+  }
+
+  public function deleteItem()
+  {
+    $id = Input::get('Id');
+    $repoId = Input::get('RepoId');
+    $validator = Validator::make(array(
+      'id' => $id,
+      'repoId' => $repoId,
+    ),
+      array(
+        'id' => 'required|integer|min:1|max:99999',
+        'repoId' => 'integer|min:1|max:99999'
+      ));
+
+    if ($validator->passes()) {
+      Item::deleteItem($id);
+      return Response::json(array('data' => Item::getItemsByRepoId($repoId)), 200);
+    } else {
+      return Response::make('Bad Request', 400);
+    }
+  }
 }

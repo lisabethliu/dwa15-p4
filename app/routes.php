@@ -14,12 +14,17 @@
 // Routers for all the http based page requests
 Route::group(array('prefix' => '/',), function() {
     Route::get('', 'PageController@showHome');
-    Route::get('lorem-ipsum', 'PageController@showLoremIpsumGenerator');
-    Route::get('user-generator', 'PageController@showUsersGenerator');
+    Route::get('item', 'PageController@showItem');
 });
 
 // Routers for all the http based api requests
 Route::group(array('prefix' => '/api',), function() {
-    Route::get('repo', 'ApiController@generateLoremIpsum');
-    Route::get('item', 'ApiController@generateUser');
+    Route::get('repo', 'ApiController@getRepo');
+    Route::put('repo', 'ApiController@updateRepo');
+    Route::post('repo', 'ApiController@createRepo');
+    Route::delete('repo', 'ApiController@deleteRepo');
+    Route::get('item', 'ApiController@getItem');
+    Route::put('item', 'ApiController@updateItem');
+    Route::post('item', 'ApiController@createItem');
+    Route::delete('item', 'ApiController@deleteItem');
 });

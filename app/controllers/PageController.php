@@ -22,15 +22,8 @@ class PageController extends BaseController {
 	}
 
     // This function is to render the Lorem Ipsum Generator page
-    public function showLoremIpsumGenerator()
+    public function showItem()
     {
-        return View::make('loremIpsumGenerator');
+        return View::make('item');
     }
-
-    // This function is to render the User Generator page
-    public function showUsersGenerator()
-    {
-        return View::make('userGenerator');
-    }
-
 }
