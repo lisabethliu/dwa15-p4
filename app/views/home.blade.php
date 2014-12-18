@@ -23,7 +23,7 @@
               <th style='width:20%'>Name</th>
               <th style='width:35%'>Description</th>
               <th style='width:10%'>Items</th>
-              <th style='width:10%'>Last Created Time</th>
+              <th style='width:10%'>Record Created Time</th>
               <th style='width:10%'>Last Updated Time</th>
               <th style='width:auto'>Operations</th>
             </tr>
